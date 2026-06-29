@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Application Assistant</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup">
+    <header class="popup-header">
+      <h1>Job Application Assistant</h1>
+    </header>
+
+    <section class="popup-status">
+      <div class="status-item">
+        <span class="status-label">API Status</span>
+        <span id="api-status" class="status-value status-unknown">Unknown</span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">CV Loaded</span>
+        <span id="cv-status" class="status-value status-unknown">Unknown</span>
+      </div>
+    </section>
+
+    <section class="popup-actions">
+      <button id="open-settings" class="popup-btn">Settings</button>
+      <button id="recheck-page" class="popup-btn">Re-check Page</button>
+    </section>
+
+    <section id="current-page-info" class="popup-info">
+      <p id="page-type">Not on a Lever.co job page</p>
+    </section>
+
+    <footer class="popup-footer">
+      <p>v1.0.0</p>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

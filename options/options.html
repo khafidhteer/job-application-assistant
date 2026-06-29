@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Application Assistant - Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Job Application Assistant</h1>
+      <p class="subtitle">Configure your AI-powered job application assistant</p>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="api">API Configuration</button>
+      <button class="tab-btn" data-tab="cv">CV & Reference</button>
+      <button class="tab-btn" data-tab="profile">Profile</button>
+      <button class="tab-btn" data-tab="answers">Default Answers</button>
+    </nav>
+
+    <!-- API Configuration Tab -->
+    <section id="tab-api" class="tab-content active">
+      <h2>API Configuration</h2>
+      <p>Configure your AI provider. The extension works with any OpenAI-compatible API (e.g. Sumopod, OpenRouter, DeepSeek, OpenAI).</p>
+      
+      <div class="form-group">
+        <label for="api-base-url">Base URL</label>
+        <input type="url" id="api-base-url" placeholder="https://api.sumopod.com/v1">
+        <span class="hint">Your provider's OpenAI-compatible endpoint (e.g. https://api.sumopod.com/v1, https://api.deepseek.com/v1)</span>
+      </div>
+
+      <div class="form-group">
+        <label for="api-key">API Key</label>
+        <input type="password" id="api-key" placeholder="sk-...">
+        <span class="hint">Your API key from the provider</span>
+      </div>
+
+      <div class="form-group">
+        <label for="api-model">Model</label>
+        <input type="text" id="api-model" placeholder="gpt-4o-mini">
+        <span class="hint">Model name (e.g. gpt-4o-mini, deepseek-chat, claude-3-haiku — pick what fits your budget)</span>
+      </div>
+
+      <button id="save-api" class="btn btn-primary">Save API Settings</button>
+      <span id="api-status" class="status-message"></span>
+    </section>
+
+    <!-- CV & Reference Tab -->
+    <section id="tab-cv" class="tab-content">
+      <h2>CV & Reference Document</h2>
+      <p>Upload your CV/reference as a single Markdown (.md) file. This document is used for match scoring and generating answers to open-ended questions.</p>
+      
+      <div class="form-group">
+        <label for="cv-file">Upload Markdown File</label>
+        <input type="file" id="cv-file" accept=".md,.markdown,.txt">
+        <span class="hint">Upload a .md file containing your CV and reference information</span>
+      </div>
+
+      <div class="form-group">
+        <label for="cv-content">Or paste content directly:</label>
+        <textarea id="cv-content" rows="15" placeholder="Paste your CV/reference markdown content here..."></textarea>
+      </div>
+
+      <button id="save-cv" class="btn btn-primary">Save CV Content</button>
+      <span id="cv-status" class="status-message"></span>
+
+      <div class="info-box">
+        <strong>Tip:</strong> Use the <code>sample-cv-reference.md</code> file as a template. Include your personal profile, skills, work experience, education, and any other reference material the AI should know.
+      </div>
+    </section>
+
+    <!-- Profile Tab -->
+    <section id="tab-profile" class="tab-content">
+      <h2>Personal Profile</h2>
+      <p>These details will be used to auto-fill application forms.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="profile-name">Full Name</label>
+          <input type="text" id="profile-name" placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label for="profile-email">Email</label>
+          <input type="email" id="profile-email" placeholder="john@example.com">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="profile-phone">Phone</label>
+          <input type="tel" id="profile-phone" placeholder="+1-555-1234">
+        </div>
+        <div class="form-group">
+          <label for="profile-location">Current Location</label>
+          <input type="text" id="profile-location" placeholder="City, Country">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="profile-company">Current Company</label>
+        <input type="text" id="profile-company" placeholder="Acme Corp">
+      </div>
+
+      <div class="form-group">
+        <label for="profile-linkedin">LinkedIn URL</label>
+        <input type="url" id="profile-linkedin" placeholder="https://linkedin.com/in/...">
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="profile-github">GitHub URL</label>
+          <input type="url" id="profile-github" placeholder="https://github.com/...">
+        </div>
+        <div class="form-group">
+          <label for="profile-portfolio">Portfolio URL</label>
+          <input type="url" id="profile-portfolio" placeholder="https://...">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="profile-other">Other Website</label>
+        <input type="url" id="profile-other" placeholder="https://...">
+      </div>
+
+      <button id="save-profile" class="btn btn-primary">Save Profile</button>
+      <span id="profile-status" class="status-message"></span>
+    </section>
+
+    <!-- Default Answers Tab -->
+    <section id="tab-answers" class="tab-content">
+      <h2>Default Screening Answers</h2>
+      <p>Pre-fill common screening questions with your preferred answers.</p>
+
+      <div class="form-group">
+        <label for="answer-work-auth">Work Authorization</label>
+        <input type="text" id="answer-work-auth" placeholder="e.g., Yes, I am legally authorised to work in this country">
+        <span class="hint">For questions about work eligibility/authorization</span>
+      </div>
+
+      <div class="form-group">
+        <label for="answer-salary">Desired Salary</label>
+        <input type="text" id="answer-salary" placeholder="e.g., $80,000 - $100,000">
+        <span class="hint">For salary expectation questions</span>
+      </div>
+
+      <div class="form-group">
+        <label for="answer-start-date">Start Date / Availability</label>
+        <input type="text" id="answer-start-date" placeholder="e.g., 2 weeks notice, available immediately">
+        <span class="hint">For questions about when you can start</span>
+      </div>
+
+      <div class="form-group">
+        <label for="answer-holidays">Holidays/Leave Scheduled</label>
+        <input type="text" id="answer-holidays" placeholder="e.g., No upcoming holidays">
+        <span class="hint">For questions about planned time off</span>
+      </div>
+
+      <div class="form-group">
+        <label for="answer-notes">Additional Notes</label>
+        <textarea id="answer-notes" rows="3" placeholder="Any other default responses..."></textarea>
+        <span class="hint">Additional context for screening questions</span>
+      </div>
+
+      <button id="save-answers" class="btn btn-primary">Save Default Answers</button>
+      <span id="answers-status" class="status-message"></span>
+    </section>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

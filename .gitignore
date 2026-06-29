@@ -1,0 +1,25 @@
+# Private documents (CVs, resumes, personal info)
+applicant-documents/
+sample-page/
+sample-cv-reference.md
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Extension build artifacts (if any)
+*.zip
+dist/
+build/
+
+# Environment / secrets (DO NOT commit real API keys)
+.env
+.env.local
+*.key

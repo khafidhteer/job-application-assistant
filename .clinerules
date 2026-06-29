@@ -1,0 +1,82 @@
+# Project: Job Application Assistant Chrome Extension
+
+## Overview
+Chrome extension for automating job applications on jobs.lever.co with AI-powered CV-job matching and form auto-fill using DeepSeek (OpenAI-compatible API).
+
+## Tech Stack
+- Chrome Extension Manifest V3
+- Vanilla JavaScript (no framework)
+- OpenAI-compatible API (Sumopod, OpenRouter, DeepSeek, OpenAI, etc.) for AI operations
+- Chrome Storage API (storage.local)
+- Markdown file for CV/reference data
+
+## Core Features
+1. **Match Scoring** - On job posting pages, display weighted multi-parameter match score comparing CV to job description
+2. **Form Auto-Fill** - On apply pages, auto-fill fields using profile data + AI-generated answers for open-ended questions
+
+## Architecture
+- `/manifest.json` - Extension manifest (MV3)
+- `/content/` - Content scripts injected into lever.co pages
+  - `content.js` - Main orchestrator/URL router
+  - `jd-extractor.js` - Extracts job description from posting page
+  - `match-scorer.js` - UI floating panel for score display
+  - `form-filler.js` - Detects and fills Lever form fields
+- `/background/` - Service worker
+  - `service-worker.js` - DeepSeek API calls, storage management
+- `/popup/` - Quick controls panel
+- `/options/` - Full settings page (API config, CV upload, profile defaults)
+- `/lib/` - Shared utilities
+  - `storage.js` - Chrome storage wrapper
+
+## Key Rules
+- All AI calls go through background service worker via chrome.runtime.sendMessage
+- Content scripts communicate with background using message passing
+- CV/reference stored as single Markdown file in chrome.storage.local
+- DeepSeek API config configured in Options page (base URL, key, model)
+- Match scoring uses 6 weighted parameters (Skills 35%, Experience 25%, Domain Knowledge 15%, Cultural Fit 10%, Growth Potential 10%, Background 5%)
+- Auto-fill triggered by user button click, not automatic
+- Each filled field gets a source badge: [Profile] or [AI]
+
+## File Naming
+- All extension code in root folder
+- Content scripts in /content/
+- Background in /background/
+- Options page in /options/
+- Popup in /popup/
+- Libraries in /lib/
+
+## Prompt Templates
+
+### Match Scoring System Prompt
+```
+You are a career assessment assistant. Analyze how well the candidate's CV matches the job description. For each dimension, provide a score (0-100) with a one-sentence rationale. Then provide an overall weighted score and 2-3 sentence summary.
+Dimensions and weights:
+- Skills Match (35%): Technical skills, tools, methodologies alignment
+- Experience Level (25%): Years, seniority, scope
+- Domain Knowledge (15%): Industry-specific relevance
+- Cultural Fit Signals (10%): Communication style, values, work preferences
+- Growth Potential (10%): Learning trajectory, adaptability
+- Background Alignment (5%): Education, certifications
+Return as JSON with fields: skillsMatch, experienceLevel, domainKnowledge, culturalFit, growthPotential, backgroundAlignment, overallScore, summary
+```
+
+### Open-Ended Question System Prompt
+```
+You are a job application assistant. Using the candidate's CV and reference information as context, answer the following job application question concisely and professionally (2-4 sentences). Be specific to the candidate's experience and avoid generic responses.
+```
+
+## Lever.co DOM Structure (jobs.lever.co)
+- JD Page: `jobs.lever.co/{company}/{posting-id}`
+  - Title: `.posting-headline h2`
+  - Description: `.posting-description`
+  - Categories: `.posting-categories`
+- Apply Page: `jobs.lever.co/{company}/{posting-id}/apply`
+  - Form: `#application-form`
+  - Text inputs: `input[type="text"]`, `input[type="email"]`
+  - Selects: `.application-dropdown select`
+  - Checkboxes: `input[type="checkbox"]`
+  - Radios: `input[type="radio"]`
+  - Textareas: `textarea`
+  - Custom questions: `.custom-question`
+  - Question labels: `.application-label .text`
+  - Submit: `button[type="submit"]`

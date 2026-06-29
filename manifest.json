@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "Job Application Assistant",
+  "version": "1.0.0",
+  "description": "AI-powered job application assistant for Lever.co - match scoring and form auto-fill using DeepSeek",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://jobs.lever.co/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://jobs.lever.co/*"],
+      "js": [
+        "content/jd-extractor.js",
+        "content/match-scorer.js",
+        "content/form-filler.js",
+        "content/content.js"
+      ],
+      "css": ["content/styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "options_ui": {
+    "page": "options/options.html",
+    "open_in_tab": true
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Job Application Assistant",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

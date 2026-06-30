@@ -1,15 +1,13 @@
 # Active Context: Job Application Assistant
 
 ## Current Status
-Initial project scaffolding - building all extension files.
+Extension is functional. Fixed a critical bug where the job description extractor was using outdated CSS selectors that no longer matched Lever.co's current DOM structure.
 
 ## Recent Changes
-- Created .clinerules with project conventions
-- Created memory-bank documentation (projectbrief, productContext, systemPatterns, techContext)
-- Created sample-cv-reference.md as recommended CV format template
-- Built all extension source files (22 files total)
-- Created README.md with full documentation
-- Created .gitignore to exclude private documents
+- **2026-06-30**: Fixed `jd-extractor.js` - `extractDescription()` selector updated
+  - **Problem**: Lever.co changed their job posting page structure. The description was inside `<div data-qa="job-description">` instead of the old `.posting-description` class. This caused `extractDescription()` to return empty string, triggering "Could not extract job description from this page." error.
+  - **Fix**: Updated primary selector to `[data-qa="job-description"]` with `.posting-description` as fallback. Added div text extraction logic since the current Lever.co structure uses `<div>` elements with inline text rather than `<p>` tags.
+  - **Note**: The CSP error `injectlaunchmonitors.js:131` seen in console is from a different Chrome extension, not from Job Application Assistant.
 
 ## All Completed Files
 1. ~~Create .clinerules~~ ✓
@@ -35,12 +33,14 @@ Initial project scaffolding - building all extension files.
 - Auto-fill triggered by button click, not automatic
 - Field badges showing [Profile] or [AI] source
 - All AI calls routed through background service worker
+- Job description extraction uses `[data-qa="job-description"]` as primary selector with `.posting-description` fallback
 
 ## Current Considerations
 - Ensure content scripts only run on jobs.lever.co domain
 - Handle service worker lifecycle (may go idle)
 - Handle API errors gracefully with user-friendly messages
 - Support all Lever form field types (text, email, select, checkbox, radio, textarea)
+- Lever.co may change DOM structure again in the future; selectors should be monitored
 
 ## Open Questions
 - Need to determine exact Lever DOM structure for all field types from samples

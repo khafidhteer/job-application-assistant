@@ -65,6 +65,19 @@ if (url contains '/apply') {
 }
 ```
 
+## JD Extraction Strategy
+
+The `jd-extractor.js` extracts job details from Lever.co posting pages using these selectors:
+
+| Data | Selector | Notes |
+|------|----------|-------|
+| Title | `.posting-headline h2` | Stable |
+| Company | `.main-header-logo img` alt text | Stable |
+| Description | `[data-qa="job-description"]` (primary), `.posting-description` (fallback) | Updated 2026-06-30: Lever.co changed from `.posting-description` to `[data-qa="job-description"]` |
+| Categories | `.posting-categories .posting-category` with class-based filtering (`.location`, `.department`, `.commitment`, `.workplaceTypes`) | Stable |
+
+The description extraction handles both `<p>` tag content (legacy) and `<div>` inline text content (current Lever.co structure).
+
 ## Scoring Data Flow
 
 ```

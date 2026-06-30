@@ -71,6 +71,7 @@
 - **CSP**: Extension's CSP may block inline scripts in HTML pages
 - **DeepSeek rate limits**: API calls may have rate limits; handle gracefully
 - **PDF parsing**: Not needed since user uploads Markdown directly
+- **Lever.co DOM changes**: Lever.co may update their page structure. Current JD description uses `[data-qa="job-description"]` (not `.posting-description`). Form fields use classes like `.custom-question`, `.application-label`, `.application-field`, `.application-dropdown`. Selectors should be verified if extension stops working.
 
 ## Dependencies
 - **Zero external dependencies** for the extension itself

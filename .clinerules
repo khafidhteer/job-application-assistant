@@ -68,7 +68,7 @@ You are a job application assistant. Using the candidate's CV and reference info
 ## Lever.co DOM Structure (jobs.lever.co)
 - JD Page: `jobs.lever.co/{company}/{posting-id}`
   - Title: `.posting-headline h2`
-  - Description: `.posting-description`
+  - Description: `[data-qa="job-description"]` (primary), `.posting-description` (legacy fallback)
   - Categories: `.posting-categories`
 - Apply Page: `jobs.lever.co/{company}/{posting-id}/apply`
   - Form: `#application-form`

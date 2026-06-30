@@ -45,11 +45,20 @@ const JDExtractor = {
   },
 
   /**
-   * Extract job description text from .posting-description
-   * Gets all text content, stripping HTML
+   * Extract job description text from the posting page.
+   * Uses [data-qa="job-description"] (current Lever.co structure) 
+   * with .posting-description as fallback for legacy pages.
+   * Gets all text content, stripping HTML.
    */
   extractDescription() {
-    const el = document.querySelector('.posting-description');
+    // Primary selector: data-qa attribute (current Lever.co structure)
+    let el = document.querySelector('[data-qa="job-description"]');
+    
+    // Fallback: .posting-description class (legacy Lever.co structure)
+    if (!el) {
+      el = document.querySelector('.posting-description');
+    }
+    
     if (!el) return '';
 
     // Clone to avoid modifying the DOM
@@ -74,6 +83,19 @@ const JDExtractor = {
     // Handle lists
     clone.querySelectorAll('li').forEach(li => {
       text += '• ' + li.textContent.trim() + '\n';
+    });
+    
+    // Handle divs with inline content (used in current Lever.co structure)
+    clone.querySelectorAll('div').forEach(div => {
+      // Only add div text if it has direct text content (not just child elements)
+      const directText = Array.from(div.childNodes)
+        .filter(node => node.nodeType === Node.TEXT_NODE)
+        .map(node => node.textContent.trim())
+        .filter(text => text.length > 0)
+        .join(' ');
+      if (directText) {
+        text += directText + '\n\n';
+      }
     });
     
     // Get any remaining text
